@@ -35,7 +35,7 @@ const internSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     required: true,
     trim: true,
-    refs: "College",
+    ref: "College",
   },
 });
 
