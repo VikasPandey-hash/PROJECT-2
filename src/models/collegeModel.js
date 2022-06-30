@@ -6,6 +6,7 @@ const collegeSchema = new mongoose.Schema({
     unique: true,
     required: true,
     trim: true,
+    lowercase: true,
   },
   fullName: {
     type: String,
@@ -23,4 +24,4 @@ const collegeSchema = new mongoose.Schema({
   },
 });
 
-module.exports = mongoose.model("College", collegeSchema);
+module.exports = mongoose.model("College", collegeSchema); //colleges
