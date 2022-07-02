@@ -126,7 +126,7 @@ const getCollegeDetails = async (req, res) => {
 
 /*----------------------------------------------------------------------------------------------------------------- 2. API - CREATE A COLLEGE ------------------------------------------------------------------------------------------*/
 
-const createCollege = async (req, res) => {
+const createCollee = async (req, res) => {
   try {
     const college = req.body;
     let { name, fullName, logoLink } = req.body; //Object Destructuring.
