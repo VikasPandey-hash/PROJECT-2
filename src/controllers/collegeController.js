@@ -35,42 +35,8 @@ const getCollegeDetails = async (req, res) => {
 
     //IF NO Query Provided -  Return All Colleges with Interns.
     if (Object.keys(req.query).length === 0) {
-      const college = await collegeModel.find();
-      const interns = await internModel.find();
-
-      let objectArray;
-      let finalArray = [];
-      for (let i = 0; i < college.length; i++) {
-        //Create Empty Array of College & Intern with each Iteration.
-        let collegeArray = [];
-        let internArray = [];
-        // Push required details of each College interns in collegeArray[].
-        collegeArray.push(college[i]);
-        for (let j = 0; j < interns.length; j++) {
-          if (college[i].id.toString() === interns[j].collegeId.toString()) {
-            // Put required details of every-matched interns in intern{} Object.
-            intern = {
-              id: interns[j]._id,
-              name: interns[j].name,
-              email: interns[j].email,
-              mobile: interns[j].mobile,
-            };
-            // Push each Intern{} into internArray[].
-            internArray.push(intern);
-          }
-        }
-        // Create Object{} of Required Details(college & interns) of Each College.
-        objectArray = {
-          name: collegeArray[0].name,
-          fullName: collegeArray[0].fullName,
-          logoLink: collegeArray[0].logoLink,
-          interests: internArray,
-        };
-        // Push Each College-Object{} into finalArray.
-        finalArray.push(objectArray);
-      }
-      // Send All colleges with respective Interns as Response.
-      return res.status(200).send({ status: true, data: finalArray });
+     
+      return res.status(400).send({ status: false, msg: "no query given"  });
     }
 
     // IF ONLY 'collegeName' Query Provided => Return that College with its Interns.
@@ -86,12 +52,6 @@ const getCollegeDetails = async (req, res) => {
           message: `College 'name': <${collegeName}> NOT Found.`,
         });
       }
-
-      // Get requested College Details.
-      let collegeData = await collegeModel
-        .findOne({ name: collegeName })
-        .select({ name: 1, fullName: 1, logoLink: 1, _id: 0 });
-
       // Get requested Intern(s) Details.
       let interns = await internModel
         .find({ collegeId: college._id })
@@ -103,9 +63,9 @@ const getCollegeDetails = async (req, res) => {
       }
       // Create requested Object for Response.
       let finalCollegeData = {
-        name: collegeData.name,
-        fullName: collegeData.fullName,
-        logoLink: collegeData.logoLink,
+        name: college.name,
+        fullName: college.fullName,
+        logoLink: college.logoLink,
         interests: interns,
       };
       // Send Requested College-Details with its Intern-details.
@@ -126,7 +86,7 @@ const getCollegeDetails = async (req, res) => {
 
 /*----------------------------------------------------------------------------------------------------------------- 2. API - CREATE A COLLEGE ------------------------------------------------------------------------------------------*/
 
-const createCollee = async (req, res) => {
+const createCollege = async (req, res) => {
   try {
     const college = req.body;
     let { name, fullName, logoLink } = req.body; //Object Destructuring.

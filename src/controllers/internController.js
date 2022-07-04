@@ -53,13 +53,7 @@ const createIntern = async function (req, res) {
       });
     }
 
-    //"name" Validation
-    if (!isValid(name)) {
-      return res.status(400).send({
-        status: false,
-        message: "Intern Name is required...!",
-      });
-    }
+   
     if (!isValidName(name)) {
       return res.status(400).send({
         status: false,
@@ -145,6 +139,7 @@ const createIntern = async function (req, res) {
 
     //"collegeName" should be Valid (Exist in College Collection).
     const collegeNameCheck = await collegeModel.findOne({ name: collegeName });
+    
     if (!collegeNameCheck) {
       return res
         .status(400)
